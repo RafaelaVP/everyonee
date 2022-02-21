@@ -1,0 +1,20 @@
+type Query {
+    getEmployeeDetails: [Employee]
+    getProductDetails: [Product]
+
+}
+
+type Employee {
+    id: ID!
+    firstName: String
+    lastName: String
+    email: String
+}
+
+
+type Product {
+    id: ID!
+    nameProduct: String
+    typeProduct: String
+   
+}
