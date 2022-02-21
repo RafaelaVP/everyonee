@@ -1,0 +1,20 @@
+const Sequelize = require('sequelize');
+
+module.exports = function(sequelize, DataTypes) {
+  return sequelize.define('employee', {
+    id: {
+      type: Sequelize.INTEGER,
+       autoIncrement: true,
+       allowNull: false,
+       primaryKey:true
+  },
+   nameProduct: {
+      type: Sequelize.STRING,
+      allowNull:false
+  },
+   typeProduct: {
+      type: Sequelize.STRING,
+      allowNull:false
+  },
+  })
+}
