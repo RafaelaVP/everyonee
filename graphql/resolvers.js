@@ -50,7 +50,47 @@ const Mutation = {
         } catch (error) {
             console.log(error)
         }
-    }
+    },
+    updateEmployee: async(root, {id, firstName, lastName, email}) => {
+        try {
+        const employees = await employee.update({firstName, lastName, email}, {where:{id}});
+        let message;
+        if(employees) message = "update employee"
+        return message
+        } catch (error) {
+            console.log(error)
+        }
+    },
+    updateProduct: async(root, {id, nameProduct, typeProduct}) => {
+        try {
+        const products = await product.update({nameProduct, typeProduct}, {where:{id}});
+        let message;
+        if(products) message = "update product"
+        return message
+        } catch (error) {
+            console.log(error)
+        }
+    },
+    deleteEmployee: async(root, {id}) => {
+        try {
+            const employees = await employee.destroy({where: {id}})
+            let message;
+            if(employees) message = "deleted employeee"
+            return message;
+        } catch (error) {
+            console.log(error)      
+        }
+    },
+    deleteProduct: async(root, {id}) => {
+        try {
+            const products = await product.destroy({where: {id}})
+            let message;
+            if(products) message = "deleted product"
+            return message;
+        } catch (error) {
+            console.log(error)      
+        }
+    },
 
 }
 
