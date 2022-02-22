@@ -6,8 +6,14 @@ type Query {
 
 type Mutation {
     createEmployee(id:ID, firstName: String, lastName: String, email: String):String
+    updateEmployee(id:ID, firstName: String, lastName: String, email: String):String
+    deleteEmployee(id:ID):String
 
     createProduct(id:ID, nameProduct: String, typeProduct: String):String
+    updateProduct(id:ID, nameProduct: String, typeProduct: String):String
+    deleteProduct(id:ID):String
+
+
 }
 
 type Employee {
