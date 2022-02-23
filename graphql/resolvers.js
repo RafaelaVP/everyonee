@@ -1,4 +1,4 @@
-const  { employee, product } = require ('../models')
+const  { employee, product, maker, category } = require ('../models');
 
 const Query = {
     getEmployeeDetails: async () => {
@@ -17,6 +17,38 @@ const Query = {
             console.log(error)
         }
     },
+    getManyMaker: async (root) => {
+        try {
+          const makers = await maker.findAll();
+          return makers;
+        } catch (err) {
+          console.log(err);
+        }
+      },
+      getOneMaker: async (root, { id }) => {
+        try {
+          const mke = await maker.findByPk(id)
+          return mke;
+        } catch (err) {
+          console.log(err);
+        }
+      },
+      getManyCategory: async (root) => {
+        try {
+          const categories = await category.findAll()
+          return categories;
+        } catch (err) {
+          console.log(err);
+        }
+      },
+      getOneCategory: async (root, { id }) => {
+        try {
+          const ctg = await category.findByPk(id)
+          return ctg;
+        } catch (err) {
+          console.log(err);
+        }
+      },
 }
 const Mutation = {
     createEmployee: async(root, {
@@ -51,6 +83,23 @@ const Mutation = {
             console.log(error)
         }
     },
+    createMaker: async(root, {nameMaker}) => {
+        try {
+            await maker.create({nameMaker})
+            return "create maker"
+        } catch (error) {
+            console.log(error)
+        }
+    },
+    createCategory: async(root, {nameCategory}) => {
+        try {
+            await category.create({nameCategory})
+            return "create category"
+        } catch (error) {
+            console.log(error)
+        }
+    },
+    
     updateEmployee: async(root, {id, firstName, lastName, email}) => {
         try {
         const employees = await employee.update({firstName, lastName, email}, {where:{id}});

@@ -1,6 +1,13 @@
 type Query {
     getEmployeeDetails: [Employee]
     getProductDetails: [Product]
+    getManyMaker: [Maker]
+    getOneMaker(id:ID!):Maker
+    getManyCategory: [Category]
+    getOneCategory(id:ID!):Category
+    getcategoryProduct: [CategoryProduct]
+    
+    
 
 }
 
@@ -12,6 +19,10 @@ type Mutation {
     createProduct(id:ID, nameProduct: String, typeProduct: String):String
     updateProduct(id:ID, nameProduct: String, typeProduct: String):String
     deleteProduct(id:ID):String
+
+    createMaker(id: ID, nameMaker: String): String
+
+    createCategory(id: ID, nameCategory: String): String
 
 
 }
@@ -28,5 +39,22 @@ type Product {
     id: ID!
     nameProduct: String
     typeProduct: String
+   
+}
+
+type Maker {
+    id: ID!
+    nameMaker: String
+   
+}
+
+type Category {
+    id: ID!
+    nameCategory: String
+   
+}
+
+type CategoryProduct {
+    id: ID!
    
 }
