@@ -33,9 +33,9 @@ const Query = {
           console.log(err);
         }
       },
-      getManyCategory: async (root) => {
+      getManyCategory: async () => {
         try {
-          const categories = await category.findAll()
+          const categories = await category.findAll({include: { model: product, as: 'categoryProduct' }})
           return categories;
         } catch (err) {
           console.log(err);
@@ -54,13 +54,15 @@ const Mutation = {
     createEmployee: async(root, {
         firstName,
         lastName,
-        email
+        email,
+        makerId
     })=> {
         try {
             await employee && employee.create({
                 firstName,
                 lastName,
-                email
+                email,
+                makerId
             }) 
             return "create employeee"
         } catch (error) {
@@ -70,12 +72,14 @@ const Mutation = {
     createProduct: async(root, {
         nameProduct,
         typeProduct,
+        makerId
         
     })=> {
         try {
             await product && product.create({
                 nameProduct,
-                typeProduct
+                typeProduct,
+                makerId
                 
             }) 
             return "create product"

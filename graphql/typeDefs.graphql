@@ -5,19 +5,17 @@ type Query {
     getOneMaker(id:ID!):Maker
     getManyCategory: [Category]
     getOneCategory(id:ID!):Category
-    getcategoryProduct: [CategoryProduct]
-    
-    
+    getcategoryProduct: [CategoryProduct]   
 
 }
 
 type Mutation {
-    createEmployee(id:ID, firstName: String, lastName: String, email: String):String
-    updateEmployee(id:ID, firstName: String, lastName: String, email: String):String
+    createEmployee(id:ID, firstName: String, lastName: String, email: String, makerId: Int):String
+    updateEmployee(id:ID, firstName: String, lastName: String, email: String, makerId: Int):String
     deleteEmployee(id:ID):String
 
-    createProduct(id:ID, nameProduct: String, typeProduct: String):String
-    updateProduct(id:ID, nameProduct: String, typeProduct: String):String
+    createProduct(id:ID, nameProduct: String, typeProduct: String, makerId:Int):String
+    updateProduct(id:ID, nameProduct: String, typeProduct: String, makerId:Int):String
     deleteProduct(id:ID):String
 
     createMaker(id: ID, nameMaker: String): String
@@ -32,26 +30,30 @@ type Employee {
     firstName: String
     lastName: String
     email: String
-}
+    makerId: Int
+    makers: [Maker]
 
+}
 
 type Product {
     id: ID!
     nameProduct: String
     typeProduct: String
-   
+    makerId: Int
+    categories: [Category]
+    makers: [Maker]
 }
 
 type Maker {
     id: ID!
     nameMaker: String
-   
+    products: [Product]
 }
 
 type Category {
     id: ID!
     nameCategory: String
-   
+    products: [Product] 
 }
 
 type CategoryProduct {

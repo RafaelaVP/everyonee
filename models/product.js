@@ -17,6 +17,10 @@ module.exports = function(sequelize, DataTypes) {
       type: Sequelize.STRING,
       allowNull:false
   },
+  makerId: {
+    type: Sequelize.INTEGER,
+    allowNull: false
+  }
 
   })
   Product.associate = (models) => {
@@ -28,26 +32,11 @@ module.exports = function(sequelize, DataTypes) {
       through: {
        model: models.categoryProduct
       },
-      foreignKey: 'idProduct',
+      foreignKey: 'productId',
      constraint: true
     })
   }
 
-
-   
-     
-  
-  //  maker.hasMany(models.products, {
-  //      foreignKey: 'makerId'
-  //    })
-  //  }
-  //  category.belongsToMany(Product, {
-  //    through: {
-  //     model: categoryProduct
-  //    },
-  //    foreignKey: 'idcategory',
-  //    constraint: true
-  //  })
 
   return Product;
 }

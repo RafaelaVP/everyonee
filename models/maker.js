@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('maker', {
+  const Maker = sequelize.define('maker', {
     id: {
       type: Sequelize.INTEGER,
        autoIncrement: true,
@@ -13,4 +13,8 @@ module.exports = function(sequelize, DataTypes) {
       allowNull:false
   }
   })
+  Maker.associate = function(models) {
+    Maker.hasMany(models.employee, {as: 'employees'})
+  };
+  return Maker;
 }

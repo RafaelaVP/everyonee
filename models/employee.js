@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('employee', {
+  const Employee = sequelize.define('employee', {
     id: {
       type: Sequelize.INTEGER,
        autoIncrement: true,
@@ -19,8 +19,16 @@ module.exports = function(sequelize, DataTypes) {
    email: {
      type: Sequelize.STRING,
      allowNull:false
+   },
+   makerId: {
+     type: Sequelize.INTEGER,
+     allowNull: false
    }
   })
+  Employee.associate = function(models) {
+    Employee.belongsTo(models.maker, {foreignKey: 'makerId', as: 'maker'})
+  };
+  return Employee;
 }
 
 

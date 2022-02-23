@@ -11,8 +11,12 @@ module.exports = function(sequelize, DataTypes) {
    nameCategory: {
       type: Sequelize.STRING,
       allowNull:false
-  }
+  },
   }, {tableName: 'categories'})
+
+  Category.associate = function(models) {
+    Category.belongsToMany(models.product, {through: 'CategoryProduct', foreignKey: 'categoryId'})
+  };
 
 return Category;
 }

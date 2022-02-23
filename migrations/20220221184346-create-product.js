@@ -14,6 +14,9 @@ module.exports = {
       typeProduct: {
         type: Sequelize.STRING
       },
+      makerId: {
+        type: Sequelize.INTEGER
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
