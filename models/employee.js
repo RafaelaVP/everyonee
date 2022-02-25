@@ -20,14 +20,10 @@ module.exports = function(sequelize, DataTypes) {
      type: Sequelize.STRING,
      allowNull:false
    },
-   makerId: {
-     type: Sequelize.INTEGER,
-     allowNull: false
-   }
   })
   Employee.associate = function(models) {
-    Employee.belongsTo(models.maker, {foreignKey: 'makerId', as: 'maker'})
-  };
+    Employee.hasMany(models.maker, {as: 'makers'})
+  }
   return Employee;
 }
 

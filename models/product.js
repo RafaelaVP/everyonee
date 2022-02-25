@@ -26,13 +26,15 @@ module.exports = function(sequelize, DataTypes) {
   Product.associate = (models) => {
     Product.belongsTo(models.maker, {
       contraint: true,
-      foreignKey: 'makerId'
+      foreignKey: 'makerId',
+      as: 'makers'
     })
     Product.belongsToMany(models.category, {
       through: {
-       model: models.categoryProduct
+       model: models.categoryproduct
       },
       foreignKey: 'productId',
+      as: 'categories',
      constraint: true
     })
   }

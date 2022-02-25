@@ -11,10 +11,19 @@ module.exports = function(sequelize, DataTypes) {
    nameMaker: {
       type: Sequelize.STRING,
       allowNull:false
+  },
+  employeeId:{
+    type: Sequelize.INTEGER,
+      allowNull:false
   }
   })
   Maker.associate = function(models) {
-    Maker.hasMany(models.employee, {as: 'employees'})
+    Maker.belongsTo(models.employee, {foreignKey: 'employeeId', as: 'employees'})
   };
+  
+  Maker.associate = function(models) {
+    Maker.hasMany(models.product, {as: 'products'})
+  }
+
   return Maker;
 }

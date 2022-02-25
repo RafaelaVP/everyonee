@@ -1,18 +1,25 @@
 const Sequelize = require('sequelize');
 
 module.exports = function(sequelize, DataTypes) {
-  const CategoryProduct = sequelize.define('categoryProduct', {
-    categoryId: {
+  const CategoryProduct = sequelize.define('categoryproduct', {
+      id: {
       type: Sequelize.INTEGER,
        allowNull: false,
-       primaryKey:true
+       autoIncrement: true,
+       primaryKey: true
+      
   },
+  categoryId: {
+    type: Sequelize.INTEGER,
+     allowNull: false,
+    
+},
   productId: {
     type: Sequelize.INTEGER,
      allowNull: false,
-     primaryKey:true
+     
 }
-  })
+  },{tableName:'categoryproduct'})
   CategoryProduct.associate = function(models) {
     CategoryProduct.belongsTo(models.product, {foreignKey: 'productId'})
     CategoryProduct.belongsTo(models.category, {foreignKey: 'categoryId'})

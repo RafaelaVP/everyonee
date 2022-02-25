@@ -15,7 +15,12 @@ module.exports = function(sequelize, DataTypes) {
   }, {tableName: 'categories'})
 
   Category.associate = function(models) {
-    Category.belongsToMany(models.product, {through: 'CategoryProduct', foreignKey: 'categoryId'})
+    Category.belongsToMany(models.product, {
+      through: 'categoryproduct', 
+      foreignKey: 'categoryId',
+      as: 'products',
+      constraint: true
+    })
   };
 
 return Category;
