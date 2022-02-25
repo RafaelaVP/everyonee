@@ -1,6 +1,5 @@
 const Sequelize = require('sequelize');
 
-
 module.exports = function(sequelize, DataTypes) {
   const Product = sequelize.define('product', {
     id: {
@@ -20,6 +19,10 @@ module.exports = function(sequelize, DataTypes) {
   makerId: {
     type: Sequelize.INTEGER,
     allowNull: false
+  },
+  companyId: {
+    type: Sequelize.INTEGER,
+    allowNull: false
   }
 
   })
@@ -29,6 +32,11 @@ module.exports = function(sequelize, DataTypes) {
       foreignKey: 'makerId',
       as: 'makers'
     })
+    Product.belongsTo(models.company, {
+      contraint: true,
+      foreignKey: 'companyId',
+      as: 'companies'
+    })
     Product.belongsToMany(models.category, {
       through: {
        model: models.categoryproduct
@@ -36,9 +44,8 @@ module.exports = function(sequelize, DataTypes) {
       foreignKey: 'productId',
       as: 'categories',
      constraint: true
-    })
+    })   
   }
-
 
   return Product;
 }

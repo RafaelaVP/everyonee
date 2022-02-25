@@ -20,10 +20,18 @@ module.exports = function(sequelize, DataTypes) {
      type: Sequelize.STRING,
      allowNull:false
    },
+   companyId: {
+     type: Sequelize.STRING,
+     allowNull: false
+   }
   })
   Employee.associate = function(models) {
     Employee.hasMany(models.maker, {as: 'makers'})
+    Employee.belongsTo(models.company, {foreignKey: 'companyId', as: 'companies'})
   }
+  
+    
+  
   return Employee;
 }
 
