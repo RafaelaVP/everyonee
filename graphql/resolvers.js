@@ -1,4 +1,4 @@
-const  { employee, product, maker, category, categoryproduct } = require ('../models');
+const  { employee, product, maker, category, categoryproduct, company } = require ('../models');
 
 const Query = {
     getEmployeeDetails: async () => {
@@ -13,6 +13,19 @@ const Query = {
         try {
             const products = await product.findAll({include: { model: category, as: 'categories' }});
             return products;
+        } catch (error) {
+            console.log(error)
+        }
+    },
+    getCompanyDetails: async () => {
+        try {
+            const companies = await company.findAll({include: [{model: product, as: 'products', attributes: ['nameProduct']},
+            {model: maker, as: 'makers', attributes: ['nameMaker']},
+            {model: employee, as: 'employees', attributes: ['firstName']},
+            
+        ]
+        });
+            return companies;
         } catch (error) {
             console.log(error)
         }
@@ -55,6 +68,7 @@ const Mutation = {
         firstName,
         lastName,
         email,
+        companyId
         
     })=> {
         try {
@@ -62,6 +76,7 @@ const Mutation = {
                 firstName,
                 lastName,
                 email,
+                companyId
                
             }) 
             return "create employeee"
@@ -78,6 +93,7 @@ const Mutation = {
                 nameProduct:data.nameProduct,
                 typeProduct:data.typeProduct,
                 makerId:data.makerId,
+                companyId: data.companyId,
                 categories: data.categories            
             }, {include:{model:category, as: 'categories'}}) 
             return "create product"
@@ -85,9 +101,19 @@ const Mutation = {
             console.log(error)
         }
     },
-    createMaker: async(root, {nameMaker, employeeId}) => {
+    createMaker: async(root, {
+        nameMaker,
+        employeeId,
+        companyId
+        
+        }) => {
         try {
-            await maker.create({nameMaker, employeeId})
+            await maker.create(
+                {
+                nameMaker, 
+                employeeId,
+                companyId
+                })
             return "create maker"
         } catch (error) {
             console.log(error)
@@ -101,6 +127,21 @@ const Mutation = {
                await categoryproduct.create({categoryId, productId})
            }
             return "create category"
+        } catch (error) {
+            console.log(error)
+        }
+    },
+    createCompany: async(root, {
+        nameCompany,
+        
+        
+        }) => {
+        try {
+            await company.create(
+                {
+                nameCompany, 
+                })
+            return "create Company"
         } catch (error) {
             console.log(error)
         }

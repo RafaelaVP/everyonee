@@ -1,16 +1,18 @@
 type Query {
+    # Busca os funcionários
     getEmployeeDetails: [Employee]
     getProductDetails: [Product]
     getManyMaker: [Maker]
     getOneMaker(id:ID!):Maker
     getManyCategory: [Category]
     getOneCategory(id:ID!):Category
-    getcategoryProduct: [CategoryProduct]   
+    getcategoryProduct: [CategoryProduct]
+    getCompanyDetails: [Company]  
 
 }
 
 type Mutation {
-    createEmployee(id:ID, firstName: String, lastName: String, email: String):String
+    createEmployee(id:ID, firstName: String, lastName: String,companyId:Int, email: String):String
     updateEmployee(id:ID, firstName: String, lastName: String, email: String):String
     deleteEmployee(id:ID):String
 
@@ -18,18 +20,19 @@ type Mutation {
     updateProduct(id:ID, nameProduct: String, typeProduct: String, makerId:Int):String
     deleteProduct(id:ID):String
 
-    createMaker(id: ID, nameMaker: String, employeeId:Int): String
+    createMaker(id: ID, nameMaker: String, employeeId:Int, companyId:Int): String
 
     createCategory(data:CreateCategoryInput): String
 
-
+    createCompany(id:ID, nameCompany: String):String
 }
-input CreateProductInput {id:ID, nameProduct: String, typeProduct: String, makerId:Int, categories:[CreateCategoryInput]}
+input CreateProductInput {id:ID, nameProduct: String, typeProduct: String, makerId:Int,companyId:Int, categories:[CreateCategoryInput]}
 input CreateCategoryInput {id: ID, nameCategory: String, products:[ID]}
 
 
 type Employee {
     id: ID!
+    # primeiro nome funcionário
     firstName: String
     lastName: String
     email: String
@@ -63,4 +66,12 @@ type Category {
 type CategoryProduct {
     id: ID!
    
+}
+
+type Company {
+    id: ID!
+    nameCompany: String
+    makers: [Maker]
+    products: [Product] 
+    employees: [Employee]
 }
