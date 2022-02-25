@@ -10,27 +10,29 @@ type Query {
 }
 
 type Mutation {
-    createEmployee(id:ID, firstName: String, lastName: String, email: String, makerId: Int):String
-    updateEmployee(id:ID, firstName: String, lastName: String, email: String, makerId: Int):String
+    createEmployee(id:ID, firstName: String, lastName: String, email: String):String
+    updateEmployee(id:ID, firstName: String, lastName: String, email: String):String
     deleteEmployee(id:ID):String
 
-    createProduct(id:ID, nameProduct: String, typeProduct: String, makerId:Int):String
+    createProduct(data:CreateProductInput):String
     updateProduct(id:ID, nameProduct: String, typeProduct: String, makerId:Int):String
     deleteProduct(id:ID):String
 
-    createMaker(id: ID, nameMaker: String): String
+    createMaker(id: ID, nameMaker: String, employeeId:Int): String
 
-    createCategory(id: ID, nameCategory: String): String
+    createCategory(data:CreateCategoryInput): String
 
 
 }
+input CreateProductInput {id:ID, nameProduct: String, typeProduct: String, makerId:Int, categories:[CreateCategoryInput]}
+input CreateCategoryInput {id: ID, nameCategory: String, products:[ID]}
+
 
 type Employee {
     id: ID!
     firstName: String
     lastName: String
     email: String
-    makerId: Int
     makers: [Maker]
 
 }
@@ -47,7 +49,9 @@ type Product {
 type Maker {
     id: ID!
     nameMaker: String
+    employeeId: Int
     products: [Product]
+    employees: [Employee]
 }
 
 type Category {

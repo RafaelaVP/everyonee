@@ -1,9 +1,9 @@
-const  { employee, product, maker, category } = require ('../models');
+const  { employee, product, maker, category, categoryproduct } = require ('../models');
 
 const Query = {
     getEmployeeDetails: async () => {
         try {
-            const employees = await employee.findAll();
+            const employees = await employee.findAll({include: {model: maker, as: 'makers', attributes: ['nameMaker']}});
             return employees;
         } catch (error) {
             console.log(error)
@@ -11,7 +11,7 @@ const Query = {
     },
     getProductDetails: async () => {
         try {
-            const products = await product.findAll();
+            const products = await product.findAll({include: { model: category, as: 'categories' }});
             return products;
         } catch (error) {
             console.log(error)
@@ -19,7 +19,7 @@ const Query = {
     },
     getManyMaker: async (root) => {
         try {
-          const makers = await maker.findAll();
+          const makers = await maker.findAll({include: {model: product, as: 'products', attributes: ['nameProduct']}});
           return makers;
         } catch (err) {
           console.log(err);
@@ -35,7 +35,7 @@ const Query = {
       },
       getManyCategory: async () => {
         try {
-          const categories = await category.findAll({include: { model: product, as: 'categoryProduct' }})
+          const categories = await category.findAll({include: { model: product, as: 'products' }})
           return categories;
         } catch (err) {
           console.log(err);
@@ -55,14 +55,14 @@ const Mutation = {
         firstName,
         lastName,
         email,
-        makerId
+        
     })=> {
         try {
-            await employee && employee.create({
+            await employee.create({
                 firstName,
                 lastName,
                 email,
-                makerId
+               
             }) 
             return "create employeee"
         } catch (error) {
@@ -70,34 +70,36 @@ const Mutation = {
         }
     },
     createProduct: async(root, {
-        nameProduct,
-        typeProduct,
-        makerId
+        data
         
     })=> {
         try {
-            await product && product.create({
-                nameProduct,
-                typeProduct,
-                makerId
-                
-            }) 
+            await product.create({
+                nameProduct:data.nameProduct,
+                typeProduct:data.typeProduct,
+                makerId:data.makerId,
+                categories: data.categories            
+            }, {include:{model:category, as: 'categories'}}) 
             return "create product"
         } catch (error) {
             console.log(error)
         }
     },
-    createMaker: async(root, {nameMaker}) => {
+    createMaker: async(root, {nameMaker, employeeId}) => {
         try {
-            await maker.create({nameMaker})
+            await maker.create({nameMaker, employeeId})
             return "create maker"
         } catch (error) {
             console.log(error)
         }
     },
-    createCategory: async(root, {nameCategory}) => {
+    createCategory: async(root, {nameCategory, products}) => {
         try {
-            await category.create({nameCategory})
+           const ctg =  await category.create({nameCategory})
+           const categoryId = ctg.id
+           for (const productId of products) {
+               await categoryproduct.create({categoryId, productId})
+           }
             return "create category"
         } catch (error) {
             console.log(error)
